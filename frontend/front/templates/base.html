@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    IPC2 PROYECTO 3
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  
+  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'paper-dashboard.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'paper-dashboard.min.css' %}">
+
+</head>
+
+<body class="">
+
+
+  <div class="wrapper ">
+    <div class="sidebar" data-color="white" data-active-color="danger">
+      <div class="logo">
+        <a href="https://portal.ingenieria.usac.edu.gt/" class="simple-text logo-normal">
+          IPC2 PROYECTO 3
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+          <li class="active ">
+            <a href="{% url 'carga' %}">
+              <p>Cargar Archivo</p>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'peticiones' %}">
+              <p>Peticiones</p>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'ayuda' %}">
+              <p>Ayuda</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="main-panel">
+      <div class="content">
+
+ 
+        
+        <div class="row">
+          <div class="col-md-10">
+            <div class="card text-center"> 
+              <div class="card-header ">
+                <h5 class="card-title">Antes de empezar...</h5>
+                <p>Necesitamos que subas un archivo XML para que la API haga su magia</p>
+
+                <img class="card-img-bottom" style="width: 25rem;"
+                        src="{% static 'coco.png' %}" alt="Imagen">
+
+                <form action="/cargar/" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="form-group/">
+                    <input type="file" id="file" name="file" accept="text/xml">
+                    <button type="submit" class="btn btn-primary">Subir Archivo</button>
+                  </div>
+                </form>
+                {% if ok %}
+                    <div class="alert alert-success" role="alert">
+                        El archivo se envio con exito, ahora ve al menu "Peticiones"
+                      </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          </div>
+          
+
+        </div>
+
+  </div>
+  
+
+</div>
+        
+          
+
+        </div>
+
+  </div>
+
+</body>
+
+</html>

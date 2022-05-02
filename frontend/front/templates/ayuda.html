@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    IPC2 PROYECTO 3
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  
+  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'paper-dashboard.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'paper-dashboard.min.css' %}">
+
+</head>
+
+<body class="">
+
+
+    <div class="wrapper ">
+        <div class="sidebar" data-color="white" data-active-color="danger">
+          <div class="logo">
+            <a href="https://portal.ingenieria.usac.edu.gt/" class="simple-text logo-normal">
+              IPC2 PROYECTO 3
+            </a>
+          </div>
+          <div class="sidebar-wrapper">
+            <ul class="nav">
+              <li>
+                <a href="{% url 'carga' %}">
+                  <p>Cargar Archivo</p>
+                </a>
+              </li>
+              <li >
+                <a href="{% url 'peticiones' %}">
+                  <p>Peticiones</p>
+                </a>
+              </li>
+              <li class="active ">
+                <a href="{% url 'ayuda' %}">
+                  <p>Ayuda</p>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+    <div class="main-panel">
+      <div class="content">
+        
+        
+        <div class="row">
+
+          <div class="col-md-6">
+            <div class="card text-center">
+              <div class="card-header ">
+                <h5 class="card-title">Ver documentacion</h5>
+                <p> Pulsando este boton puedes ver la documentacion de este proyecto</p>
+              </div>
+              <div class="card-footer ">
+                <form>
+                  <button type="submit" class="btn btn-primary">Documentacion</button>
+                </form>
+                <hr>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card text-center">
+              <div class="card-header ">
+                <h5 class="card-title">Acerca de mi </h5>
+                <p class="card-category">Presiona aqui para saber mas sobre el creador de este proyecto</p>
+              </div>
+              <div class="card-footer ">
+                <form>
+                  <button type="submit" class="btn btn-primary">Sobre el creador</button>
+                </form>
+                <hr>
+              </div>
+            </div>
+          </div>
+
+          </div>
+          
+
+        </div>
+        
+        
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
