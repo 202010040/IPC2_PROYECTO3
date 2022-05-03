@@ -1,6 +1,7 @@
-from flask import Flask, request
+from flask import Flask, make_response, render_template, request
 from flask.json import jsonify
 from flask_cors import CORS
+import pdfkit
 from mensaje import Mensaje
 from gestor import Gestor
 from xml.etree import ElementTree as ET
@@ -66,9 +67,10 @@ def MostrrPetciones ():
         return jsonify({'data':True})
     else:
         return jsonify({'data':False})
-
+#Peticion de entrada y salida de xml
 @app.route('/consultar', methods = ['GET'])
 def consultar():
+    #Se define la entrada como el XML enviado, pero lasalida como una funcion que procesa
     entrada = gestor.xml
     salida = gestor.retornarXML()
     data = {
@@ -77,6 +79,21 @@ def consultar():
     }
     data = jsonify(data)
     return data
+
+#Reporte en pedf de entrada y salida de xml
+@app.route('/generarPDF1', methods = ['POST'])
+def pdf1():
+    if request.method == "POST":
+
+        entrada = gestor.xml
+        salida = gestor.retornarXML()
+        data = {
+            'entrada' : entrada,
+            'salida': salida
+        }
+        data = jsonify(data)
+
+        return data
 
 
 

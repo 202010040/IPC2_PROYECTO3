@@ -1,11 +1,40 @@
+import os
 from distutils.log import error
+from pathlib import Path
 from pickle import FALSE
-from django.shortcuts import render
-from .forms import LoginForm,FileForm, AddForm
+from tkinter import font
+from unittest import result
+from weasyprint.text.fonts import FontConfiguration
+from django.conf import settings
+import pdfkit
 # Create your views here.
 import requests
+from django.http import HttpResponse
+from django.shortcuts import render
+from django.template.loader import get_template, render_to_string
+from weasyprint import CSS, HTML
+
+from . import wsgi
+from .forms import AddForm, FileForm, LoginForm
 
 endpoint= 'http://127.0.0.1:5000/'
+
+from io import BytesIO
+
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+
+
+#Funcion de rendeizar el reporte
+def render_to_pdf(template_src, context_dict):
+    template = get_template(template_src)
+    html  = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("utf-8")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
 
 def login(request):
     context = {
@@ -87,11 +116,25 @@ def Peticiones(request):
     if request.method == "GET":
         return render(request, 'peticiones.html')
 
+        
+
 def visualizarXML(request):
     if request.method == "GET":
         response = requests.get(endpoint + 'consultar');
         response = response.json()
         return render(request,'visualizarXML.html',response)
+    if request.method == "POST":
+        response = requests.get(endpoint + 'consultar');
+        context = response.json()
+        html = render_to_string("Reporte1.html", context)
+        response = HttpResponse(content_type="application/pdf")
+        response["Content-Disposition"] = "inline; report.pdf"
+
+        font_config = FontConfiguration()
+        HTML(string=html).write_pdf(response, font_config=font_config)
+
+        return response
+
 
 
 def Ayuda (request):

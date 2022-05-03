@@ -54,7 +54,7 @@
             <!----------------------------FILA 1--------------------------->
             <p class="h4 mb-2 bg-dark text-white" style="text-align: center;" >Respuesta a la peticion XML</p>
             <div class="row">
-              {% csrf_token %}
+              
                {% if entrada %}   
               <div class="col-md-6">
                 <div class="card text-center">
@@ -107,7 +107,8 @@
             {% endif %}
 
             <div class = 'col text-center'>
-              <form>
+              <form action="/visualizarXML/" method="POST">
+                {% csrf_token %}
               <button type="submit" class="btn btn-dark btn-lg">Generar reporte</button>
               </form>
             </div>
