@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    IPC2 PROYECTO 3
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+
+<body class="">
+
+    <div class="main-panel">
+      <div class="content">
+
+ 
+        
+        <div class="row">
+          <div class="col-md-10">
+            <div class="card text-center"> 
+              <div class="card-header ">
+                <h5 class="card-title">Aqui estan los mensajes en la fecha de {{ fecha }}</h5>
+                
+                <table class="table table-sm table-dark">
+                    <thead>
+                      <tr>
+                        <th scope="col">Empresa</th>
+                        <th scope="col">Total de postivos</th>
+                        <th scope="col">Total de negativos</th>
+                        <th scope="col">Total de neutros</th>
+                        <th scope="col">Total de mensajes</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for i in Listado %}
+                      <tr>  
+                        <th scope="row">{{ i.nombre }}</th>
+                        <td> {{ i.positivos }} </td>
+                        <td>{{ i.negativos }}</td>
+                        <td>{{ i.neutrales }}</td>
+                        <td>{{ i.total }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                  </table>
+
+              </div>
+            </div>
+          </div>
+          </div>
+          
+
+        </div>
+
+  </div>
+  
+
+</div>
+        
+          
+
+        </div>
+
+  </div>
+
+</body>
+
+</html>

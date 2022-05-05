@@ -14,6 +14,8 @@ class Mensaje:
         self.positivos = 0
         self.negativos = 0
         self.tipo = 'None'
+        self.balancePositivo = 0.0
+        self.balanceNegativo = 0.0
         self.Contener()
     
     def obtenerMensaje(self):
@@ -31,6 +33,11 @@ class Mensaje:
         for text in self.contenido:
             self.texto += text
             self.texto += " "
+
+    def balancear(self):
+        #Saca el balance de positivos y el balance de negativos
+        self.balancePositivo = (float(self.positivos)//(self.positivos+self.negativos))*100
+        self.balanceNegativo = (float(self.negativos)//(self.positivos+self.negativos))*100
 
 class servicio:
     def __init__(self, nombre):

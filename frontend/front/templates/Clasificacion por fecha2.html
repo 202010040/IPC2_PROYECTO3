@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    IPC2 PROYECTO 3
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  
+  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'paper-dashboard.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'paper-dashboard.min.css' %}">
+
+</head>
+
+<body class="">
+
+
+  <div class="wrapper ">
+    <div class="sidebar" data-color="white" data-active-color="danger">
+      <div class="logo">
+        <a href="https://portal.ingenieria.usac.edu.gt/" class="simple-text logo-normal">
+          IPC2 PROYECTO 3
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+          <li class="active ">
+            <a href="{% url 'carga' %}">
+              <p>Cargar Archivo</p>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'peticiones' %}">
+              <p>Peticiones</p>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'ayuda' %}">
+              <p>Ayuda</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="main-panel">
+      <div class="content">
+
+ 
+        
+        <div class="row">
+          <div class="col-md-10">
+            <div class="card text-center"> 
+              <div class="card-header ">
+                <h5 class="card-title">Aqui estan los mensajes en la fecha de {{ fecha }}</h5>
+                
+                <table class="table table-sm table-dark">
+                    <thead>
+                      <tr>
+                        <th scope="col">Empresa</th>
+                        <th scope="col">Total de postivos</th>
+                        <th scope="col">Total de negativos</th>
+                        <th scope="col">Total de neutros</th>
+                        <th scope="col">Total de mensajes</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for i in Listado %}
+                      <tr>  
+                        <th scope="row">{{ i.nombre }}</th>
+                        <td> {{ i.positivos }} </td>
+                        <td>{{ i.negativos }}</td>
+                        <td>{{ i.neutrales }}</td>
+                        <td>{{ i.total }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                  </table>
+
+                  <form action="/reporte2/" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Imprimir Reporte</button>
+                </form>
+
+              </div>
+            </div>
+          </div>
+          </div>
+          
+
+        </div>
+
+  </div>
+  
+
+</div>
+        
+          
+
+        </div>
+
+  </div>
+
+</body>
+
+</html>

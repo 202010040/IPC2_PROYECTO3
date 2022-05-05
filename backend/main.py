@@ -94,8 +94,74 @@ def pdf1():
         data = jsonify(data)
 
         return data
+#Vista general de clasificacion por fecha
+@app.route('/clasificar-por-fecha', methods = ['GET','POST'])
+def clasificar():
+    #Si solo es un get, entondes retornara un listado de empresa para seleccionar
+    if request.method == 'GET':
+        #json = request.get_json()
+        empresas2 = []
+        for em in gestor.empresas:
+            empresas2.append(em.nombre) 
+        #Rettorna solo los nombre de las empresas
+        return jsonify ({'empresas':empresas2})
+    #Si es un post, entonces retornara los mensajes totales
+    if request.method == 'POST':
+        datos = request.json
+        dictionary = gestor.clasificar_por_fecha(datos['date'], datos ['empresa'])
+        print(dictionary)
+        return jsonify(dictionary)
+
+#Vista general de clasificacion por fecha
+@app.route('/resumen-por-rango', methods = ['GET','POST'])
+def rango():
+    #Si solo es un get, entondes retornara un listado de empresa para seleccionar
+    if request.method == 'GET':
+        #json = request.get_json()
+        empresas2 = []
+        for em in gestor.empresas:
+            empresas2.append(em.nombre)
+        #Rettorna solo los nombre de las empresas
+        return jsonify ({'empresas':empresas2})
+    #Si es un post, entonces retornara los mensajes totales
+    if request.method == 'POST':
+        datos = request.json
+        dictionary = gestor.rango_de_fechas(datos['date1'],datos['date2'] , datos ['empresa'])
+        print(dictionary)
+        return jsonify(dictionary)
+#Reportes 2 y 3
+@app.route("/reporte2", methods = ['POST'])
+def reporte2 ():
+    return jsonify(gestor.reporte2)
+@app.route("/reporte3", methods = ['POST'])
+def reporte3 ():
+    return jsonify(gestor.reporte3)
+@app.route("/reporte4", methods = ['POST'])
+def reporte4():
+    #Se define la entrada como el XML enviado, pero lasalida como una funcion que procesa
+    entrada = gestor.reporte40
+    salida = gestor.reporte4
+    data = {
+        'entrada' : entrada,
+        'salida': salida
+    }
+    data = jsonify(data)
+    return data
 
 
+#PRUEBA DE MENSAJE
+@app.route("/prueba-de-mensaje", methods = ['GET'])
+def prueba1():
+    return ("{'ok':'True'}")
+
+@app.route("/prueba-de-mensaje", methods = ['POST'])
+def prueba2():
+    xml2 = request.data.decode('utf-8')
+    entrada = str(xml2)
+    gestor.reporte40 = entrada
+    salida = gestor.prueba_mensaje(xml2)
+    return jsonify({'entrada':entrada, 'salida':salida})
+    
 
 @app.route("/ayuda", methods = ['GET'])
 def MostrarAyuda():

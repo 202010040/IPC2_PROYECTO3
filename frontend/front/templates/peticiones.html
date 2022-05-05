@@ -88,7 +88,7 @@
 
                   </div>
                   <div class="card-footer ">
-                    <form>
+                    <form action="/clasificar-por-fecha/" method="GET">
                       <button type="submit" class="btn btn-primary">Resume pro fecha</button>
                     </form>
                     <hr>
@@ -104,7 +104,7 @@
        
 <div class="row">
 
-  <div class="col-md-4">
+  <div class="col-md-6">
     <div class="card text-center">
       <div class="card-header ">
         <h5 class="card-title">Resumen por rango de fechas</h5>
@@ -117,7 +117,7 @@
 
       </div>
       <div class="card-footer ">
-        <form>
+        <form action="/rango-de-fechas/" method="GET">
           <button type="submit" class="btn btn-primary">Resume por rango de fechas</button>
         </form>
         <hr>
@@ -125,28 +125,8 @@
     </div>
   </div>
 
-  <div class="col-md-4">
-    <div class="card text-center">
-      <div class="card-header ">
-        <h5 class="card-title">Reporte en PDF</h5>
-        <p class="card-category">Podras descargar un reporte detallado en un documento PDF</p>
-      </div>
-      <div class="card-body ">
 
-        <img class="card-img-bottom" style="width: 15rem;"
-            src="{% static 'pdf.png' %}" alt="Imagen">
-
-      </div>
-      <div class="card-footer ">
-        <form>
-          <button type="submit" class="btn btn-primary">Reporte PDF</button>
-        </form>
-        <hr>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-md-4">
+  <div class="col-md-6">
     <div class="card text-center">
       <div class="card-header ">
         <h5 class="card-title">Prueba de mensaje </h5>
@@ -159,7 +139,7 @@
 
       </div>
       <div class="card-footer ">
-        <form>
+        <form action = "/prueba/" method="get">
           <button type="submit" class="btn btn-primary">Realizar Prueba</button>
         </form>
         <hr>
@@ -178,26 +158,7 @@
 
 
       </div>
-      <footer class="footer footer-black  footer-white ">
-        <div class="container-fluid">
-          <div class="row">
-            <nav class="footer-nav">
-              <ul>
-                <li><a href="https://www.creative-tim.com" target="_blank">Creative Tim</a></li>
-                <li><a href="https://www.creative-tim.com/blog" target="_blank">Blog</a></li>
-                <li><a href="https://www.creative-tim.com/license" target="_blank">Licenses</a></li>
-              </ul>
-            </nav>
-            <div class="credits ml-auto">
-              <span class="copyright">
-                © <script>
-                  document.write(new Date().getFullYear())
-                </script>, made with <i class="fa fa-heart heart"></i> by Creative Tim
-              </span>
-            </div>
-          </div>
-        </div>
-      </footer>
+  
     </div>
   </div>
 
