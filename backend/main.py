@@ -1,3 +1,5 @@
+from distutils.log import error
+from os import remove
 from flask import Flask, make_response, render_template, request
 from flask.json import jsonify
 from flask_cors import CORS
@@ -17,28 +19,39 @@ gestor=Gestor()
 def home():
     return "Esta corriendo bien bro"
 
-@app.route('/login/<user>/<password>')
-def login(user=None,password=None):
-    res = gestor.obtener_usuario(user,password)
-    if res == None:
-        return '{"data":false}'
-    return '{"data":true}'
-
-#Agregar cancion
-@app.route('/agregarCancion',methods=['POST'])
-def agregarCancion():
-    json=request.get_json()
-    gestor.agregar_cancion(json['name'],json['artist'],json['image'],json['album'])
-    return jsonify({'ok':True, 'data':'Cancion añadida con exito'}),200
-
 #Cargar Archivo
 @app.route('/CargaMasiva',methods=['POST'])
-def agregarCanciones():
+def Carguita():
     xml=request.data.decode('utf-8')
     gestor.clasificarXML(xml)
     gestor.enlistar()
     return (jsonify({'ok':True}))
-    
+
+@app.route('/CargaMasiva',methods=['GET'])
+def Carguita2():
+    try:
+        file = open('Archivo.xml','r')
+        gestor.clasificarXML(file.read())
+        gestor.enlistar()
+        return (jsonify({'ok':True, 'listos': True})) 
+    except:
+        return (jsonify({'ok':False, 'listos': False}))   
+
+@app.route('/reset',methods=['POST'])
+def Resetear():
+    gestor.mensajes = []
+    gestor.empresas = []
+    gestor.xml = []
+    gestor.reporte40 = []
+    gestor.reporte4 = []
+    gestor.reporte2 = {}
+    gestor.reporte3 = {}
+    gestor.mensajesTotales =0
+    gestor.TotalesPositivos = 0
+    gestor.TotalesNegativos = 0
+    gestor.TotalesNeutros = 0
+    remove("Archivo.xml")
+    return (jsonify({'ok':False, 'listos': False})) 
 
 #Obtener Canciones
 @app.route('/canciones',methods=['GET'])

@@ -9,8 +9,7 @@ class Mensaje:
         #Las primeras son variables de declaracion normal, las otras se declaran con funciones especiales
         self.texto = ""
         self.empresa = 'None'
-        self.servicio = 'None'
-        self.servicio = 'None'
+        self.servicio = 'Desconocido'
         self.positivos = 0
         self.negativos = 0
         self.tipo = 'None'

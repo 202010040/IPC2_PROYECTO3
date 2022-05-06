@@ -56,8 +56,14 @@
           <div class="col-md-10">
             <div class="card text-center"> 
               <div class="card-header ">
+                {% if listos %}
+                <h5 class="card-title">Ya estamos lostos</h5>
+                <p>No necesitas cargar otro xml, pero si asi lo deseas esta bien tambien</p>
+                {% else %}
                 <h5 class="card-title">Antes de empezar...</h5>
                 <p>Necesitamos que subas un archivo XML para que la API haga su magia</p>
+                {% endif %}
+                
 
                 <img class="card-img-bottom" style="width: 25rem;"
                         src="{% static 'coco.png' %}" alt="Imagen">
@@ -67,6 +73,13 @@
                   <div class="form-group/">
                     <input type="file" id="file" name="file" accept="text/xml">
                     <button type="submit" class="btn btn-primary">Subir Archivo</button>
+                  </div>
+                </form>
+
+                <form action="/reset/" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="form-group/">
+                    <button type="submit" class="btn btn-danger">Reset</button>
                   </div>
                 </form>
                 {% if ok %}

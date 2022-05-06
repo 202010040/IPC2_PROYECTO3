@@ -1,5 +1,7 @@
 from ast import alias
 import ast
+from collections import OrderedDict
+import collections
 from xml.etree import ElementTree as ET
 import xmltodict, json
 from mensaje import Mensaje
@@ -67,19 +69,20 @@ def ClasificarXml(xml):
         #Ahora, con ayuda de un iterador se llenan los campos
         i = 0
         for palabra in mensaje:
-            if i == 3:
-                lugar = tilde(palabra)
-            elif i == 4:
-                fecha = palabra
-            elif i == 5:
-                hora = palabra
-            elif i == 7:
-                user = tilde(palabra)
-            elif i == 10:
-                red = tilde(palabra)
-            elif i >= 11:
-                mensaje0.append(tilde(palabra))
-            i+=1    
+            if palabra != '':
+                if i == 3:
+                    lugar = tilde(palabra)
+                elif i == 4:
+                    fecha = palabra
+                elif i == 5:
+                    hora = palabra
+                elif i == 7:
+                    user = tilde(palabra)
+                elif i == 10:
+                    red = tilde(palabra)
+                elif i >= 11:
+                    mensaje0.append(tilde(palabra))
+                i+=1    
         #Con las variables temporales llenadas, podemos crear un objeto de tipo mensaje
         nuevo = Mensaje(lugar, fecha, hora, user, red, mensaje0)
         #Se agrega al listado de mensajes
@@ -118,31 +121,47 @@ def ClasificarXml(xml):
         #Por cada mensaje recorre las empresas
         for i in Empresas:
             #Si la empresa se menciona en el mensaje, entonces sera de la empresa el mensaje:
-            tempcontenido = ''
+            tempcontenido = m.texto
             #Se concatena y luego se busca la empresa
-            for content in m.contenido:
-                tempcontenido += content
-                tempcontenido += " "
-            if (tilde(i['nombre'])) in tempcontenido:
+            if (tilde(i['nombre'])) in tilde(tempcontenido):
                     m.empresa = (tilde(i['nombre']))
             #Luego, se buscara el servicio asignado
             #La unica diferencia es que ya busca dento de los servicios disponibles en la empresa, y como estan en el mismo orden, no hay pierde
-            #Se recorren los servicios
-            for service in i['servicio']:
-                #Algunas no tienen alias, por eso se usa un try catch
+            #Se busca si hay solo uno o mas servicios
+            #Si solo es uno se usa una cadena normal
+            
+            if type(i['servicio']) == collections.OrderedDict:
                 try:
                     #Se usa type para saber si es lista o cadena, de ello dependera si se recorre o solo se asigna
-                    if (type(service['alias'])) == list:
-                        for alia in (service['alias']):
+                    if (type(i['servicio']['alias'])) == list:
+                        for alia in (i['servicio']['alias']):
                             if tilde(alia) in tilde(tempcontenido):
-                                m.servicio = tilde(service['@nombre'])
-                    elif (type(service['alias'])) == str:
-                        if tilde(service['alias']) in tempcontenido:
-                                m.servicio = tilde(service['@nombre'])
+                                m.servicio = tilde(i['servicio']['@nombre'])
+                    elif (type(i['servicio']['alias'])) == str:
+                        if tilde(i['servicio']['alias']) in tempcontenido:
+                                m.servicio = tilde(i['servicio']['@nombre'])
                 except:
-                    if tilde(service['@nombre']) in tempcontenido:
-                        m.servicio = tilde(service['@nombre'])
-                    
+                    if tilde(i['servicio']['@nombre']) in tempcontenido:
+                        m.servicio = tilde(i['servicio']['@nombre'])
+            elif type(i['servicio']) == list:
+                #Si es un arreglo, entonces
+                #Se recorren los servicios
+                for service in i['servicio']:
+                    #Algunas no tienen alias, por eso se usa un try catch
+                    try:
+                        #Se usa type para saber si es lista o cadena, de ello dependera si se recorre o solo se asigna
+                        if (type(service['alias'])) == list:
+                            for alia in (service['alias']):
+                                if tilde(alia) in tilde(tempcontenido):
+                                    m.servicio = tilde(service['@nombre'])
+                        elif (type(service['alias'])) == str:
+                            if tilde(service['alias']) in tempcontenido:
+                                    m.servicio = tilde(service['@nombre'])
+                    except:
+                        if tilde(service['@nombre']) in tempcontenido:
+                            m.servicio = tilde(service['@nombre'])
+    for m in mensajes:
+        print(m.lugar,m.fecha,m.hora,m.user,m.red, m.texto, m.tipo, m.empresa, m.servicio)
     return (mensajes)
 
 def PruebaMensaje(xml2):
@@ -193,25 +212,42 @@ def PruebaMensaje(xml2):
         for content in nuevo.contenido:
             tempcontenido += content
             tempcontenido += " "
+
         if (tilde(i['nombre'])) in tempcontenido:
                 nuevo.empresa = (tilde(i['nombre']))
         #Luego, se buscara el servicio asignado
         #La unica diferencia es que ya busca dento de los servicios disponibles en la empresa, y como estan en el mismo orden, no hay pierde
         #Se recorren los servicios
-        for service in i['servicio']:
-            #Algunas no tienen alias, por eso se usa un try catch
-            try:
-                #Se usa type para saber si es lista o cadena, de ello dependera si se recorre o solo se asigna
-                if (type(service['alias'])) == list:
-                    for alia in (service['alias']):
-                        if tilde(alia) in tilde(tempcontenido):
-                            nuevo.servicio = tilde(service['@nombre'])
-                elif (type(service['alias'])) == str:
-                    if tilde(service['alias']) in tempcontenido:
-                            nuevo.servicio = tilde(service['@nombre'])
-            except:
-                if tilde(service['@nombre']) in tempcontenido:
-                    nuevo.servicio = tilde(service['@nombre'])
+        if type(i['servicio']) == collections.OrderedDict:
+                try:
+                    #Se usa type para saber si es lista o cadena, de ello dependera si se recorre o solo se asigna
+                    if (type(i['servicio']['alias'])) == list:
+                        for alia in (i['servicio']['alias']):
+                            if tilde(alia) in tilde(tempcontenido):
+                                nuevo.servicio = tilde(i['servicio']['@nombre'])
+                    elif (type(i['servicio']['alias'])) == str:
+                        if tilde(i['servicio']['alias']) in tempcontenido:
+                                nuevo.servicio = tilde(i['servicio']['@nombre'])
+                except:
+                    if tilde(i['servicio']['@nombre']) in tempcontenido:
+                        nuevo.servicio = tilde(i['servicio']['@nombre'])
+        elif type(i['servicio']) == list:
+            #Si es un arreglo, entonces
+            #Se recorren los servicios
+            for service in i['servicio']:
+                #Algunas no tienen alias, por eso se usa un try catch
+                try:
+                    #Se usa type para saber si es lista o cadena, de ello dependera si se recorre o solo se asigna
+                    if (type(service['alias'])) == list:
+                        for alia in (service['alias']):
+                            if tilde(alia) in tilde(tempcontenido):
+                                nuevo.servicio = tilde(service['@nombre'])
+                    elif (type(service['alias'])) == str:
+                        if tilde(service['alias']) in tempcontenido:
+                                nuevo.servicio = tilde(service['@nombre'])
+                except:
+                    if tilde(service['@nombre']) in tempcontenido:
+                        nuevo.servicio = tilde(service['@nombre'])
     #AHORA, A CONTAR LOS POSITIVOS Y LOS NEGATIVOS
         #Iterador de mensajes positivos
         Positivos = 0

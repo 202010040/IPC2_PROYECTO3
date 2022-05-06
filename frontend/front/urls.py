@@ -16,4 +16,5 @@ urlpatterns = [
     path('reporte3/', views.Reporte3, name= 'reporte3'),
     path('reporte4/', views.Reporte4, name= 'reporte4'),
     path('prueba/', views.Prueba_de_mensaje, name= 'prueba'),
+    path('reset/', views.Reset, name= 'reset'),
 ]
